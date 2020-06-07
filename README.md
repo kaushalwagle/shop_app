@@ -1,6 +1,6 @@
 # shopapp
 
-Flutter app folloing the instructions from  https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps
+Flutter app following the instructions from  https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps
 
 ## Getting Started
 

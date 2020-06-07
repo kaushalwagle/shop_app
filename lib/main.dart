@@ -6,6 +6,7 @@ import 'screens/products_overview_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/user_products_screen.dart';
+import 'screens/edit_product_screen.dart';
 
 import 'providers/orders.dart';
 import 'providers/products.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
           CartScreen.routeName: (context) => CartScreen(),
           OrdersScreen.routeName: (context) => OrdersScreen(),
           UserProductsScreen.routeName: (context) => UserProductsScreen(),
+          EditProductScreen.routeName: (context) => EditProductScreen(),
         },
       ),
     );
