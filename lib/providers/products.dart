@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../models/http_exception.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
@@ -105,28 +106,40 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> updateProduct(String id, Product newProduct) async{
+  Future<void> deleteProduct(String productId) async {
+    final url =
+        'https://flutter-shop-dca7d.firebaseio.com/products/$productId.json';
+    final existingProductIndex = _items.indexWhere((p) => p.id == productId);
+    var existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
+    notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could Not delete product.');
+    }
+    existingProduct = null;
+  }
+
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = 'https://flutter-shop-dca7d.firebaseio.com/products/$id.json';
       try {
-        await http.patch(url, body: jsonEncode({
-          'title': newProduct.title,
-          'description': newProduct.description,
-          'price': newProduct.price,
-          'imageUrl': newProduct.imageUrl,
-        }));
+        await http.patch(url,
+            body: jsonEncode({
+              'title': newProduct.title,
+              'description': newProduct.description,
+              'price': newProduct.price,
+              'imageUrl': newProduct.imageUrl,
+            }));
         _items[prodIndex] = newProduct;
         notifyListeners();
-      }catch(error){
-        throw(error);
+      } catch (error) {
+        throw (error);
       }
     }
-  }
-
-  void deleteProduct(String productId) {
-    _items.removeWhere((prod) => prod.id == productId);
-    notifyListeners();
   }
 
   Product findById(String id) {
