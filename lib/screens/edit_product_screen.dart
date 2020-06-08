@@ -91,12 +91,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct.id, _editedProduct);
+      } catch (error) {
+        return showDialog<Null>(
+          context: context,
+          builder: (ctx) => _buildErrorDailogBox(ctx),
+        );
+      }
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
@@ -104,24 +107,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
       } catch (error) {
         return showDialog<Null>(
           context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error occurred while adding the product!'),
-            content: Text('Something weird happened'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Okay'),
-                onPressed: () => Navigator.of(ctx).pop(),
-              ),
-            ],
-          ),
+          builder: (ctx) => _buildErrorDailogBox(ctx),
         );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
+  }
+
+  Widget _buildErrorDailogBox(BuildContext ctx) {
+    return AlertDialog(
+      title: Text('An error occurred while adding the product!'),
+      content: Text('Something weird happened'),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Okay'),
+          onPressed: () => Navigator.of(ctx).pop(),
+        ),
+      ],
+    );
   }
 
   @override
