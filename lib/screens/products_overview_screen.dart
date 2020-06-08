@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/products_grid.dart';
 import '../providers/cart.dart';
+import '../providers/products.dart';
 import './cart_screen.dart';
 
 enum FilterOptions {
@@ -19,6 +20,22 @@ class ProductsOverViewScreen extends StatefulWidget {
 
 class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
   var _showFavouritesOnly = false;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   Widget _shoppingCartBadge() {
     return Consumer<Cart>(
@@ -70,7 +87,11 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showFavouritesOnly),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(_showFavouritesOnly),
     );
   }
 }
