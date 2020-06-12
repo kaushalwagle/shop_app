@@ -128,7 +128,7 @@ class Products with ChangeNotifier {
       final url = 'https://flutter-shop-dca7d.firebaseio.com/products/$id.json';
       try {
         await http.patch(url,
-            body: jsonEncode({
+            body: json.encode({
               'title': newProduct.title,
               'description': newProduct.description,
               'price': newProduct.price,

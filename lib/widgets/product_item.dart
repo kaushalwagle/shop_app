@@ -56,7 +56,13 @@ class ProductItem extends StatelessWidget {
                 product.isFavourite ? Icons.favorite : Icons.favorite_border,
               ),
               color: Theme.of(context).accentColor,
-              onPressed: () => product.toggleFavouriteStatus(),
+              onPressed: () async{
+                try{
+                  product.toggleFavouriteStatus();
+                }catch(error){
+                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
+                }
+              },
             ),
             child: Text('Never Changes'),
           ),
