@@ -97,7 +97,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       } catch (error) {
         return showDialog<Null>(
           context: context,
-          builder: (ctx) => _buildErrorDailogBox(ctx),
+          builder: (ctx) => _buildErrorDialogBox(ctx),
         );
       }
     } else {
@@ -107,7 +107,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       } catch (error) {
         return showDialog<Null>(
           context: context,
-          builder: (ctx) => _buildErrorDailogBox(ctx),
+          builder: (ctx) => _buildErrorDialogBox(ctx),
         );
       }
     }
@@ -117,7 +117,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     Navigator.of(context).pop();
   }
 
-  Widget _buildErrorDailogBox(BuildContext ctx) {
+  Widget _buildErrorDialogBox(BuildContext ctx) {
     return AlertDialog(
       title: Text('An error occurred while adding the product!'),
       content: Text('Something weird happened'),
