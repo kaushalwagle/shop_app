@@ -104,6 +104,9 @@ class Auth with ChangeNotifier {
       _authTimer.cancel();
     }
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+//    prefs.remove('userData');
+    prefs.clear();
   }
 
   void _autoLogOut() {
