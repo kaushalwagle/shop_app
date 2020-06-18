@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
 import '../providers/cart.dart';
+import '../providers/auth.dart';
 
 class ProductItem extends StatelessWidget {
   final String id;
@@ -21,6 +22,10 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(
+      context,
+      listen: false,
+    );
+    final authData = Provider.of<Auth>(
       context,
       listen: false,
     );
@@ -58,7 +63,7 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
               onPressed: () async{
                 try{
-                  product.toggleFavouriteStatus();
+                  product.toggleFavouriteStatus(authData.token, authData.userId);
                 }catch(error){
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
                 }
