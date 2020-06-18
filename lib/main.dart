@@ -8,6 +8,7 @@ import 'screens/orders_screen.dart';
 import 'screens/user_products_screen.dart';
 import 'screens/edit_product_screen.dart';
 import 'screens/auth_screen.dart';
+import 'screens/splash_screen.dart';
 
 import 'providers/orders.dart';
 import 'providers/products.dart';
@@ -51,8 +52,15 @@ class _MyAppState extends State<MyApp> {
               accentColor: Colors.deepOrange,
             ),
             routes: {
-              '/': (context) =>
-                  auth.isAuth ? ProductsOverViewScreen() : AuthScreen(),
+              '/': (context) => auth.isAuth
+                  ? ProductsOverViewScreen()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (_, authResultSnapshot) =>
+                          authResultSnapshot.connectionState ==
+                                  ConnectionState.waiting
+                              ? SplashScreen()
+                              : AuthScreen()),
               ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
               CartScreen.routeName: (context) => CartScreen(),
               OrdersScreen.routeName: (context) => OrdersScreen(),
