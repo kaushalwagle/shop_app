@@ -105,7 +105,7 @@ class Products with ChangeNotifier {
       _items = loadedProduct;
       notifyListeners();
     } catch (error) {
-      throw (error);
+      throw HttpException('Error occurred while loading products!');
     }
   }
 

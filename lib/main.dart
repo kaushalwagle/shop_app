@@ -7,10 +7,12 @@ import 'screens/product_detail_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/user_products_screen.dart';
 import 'screens/edit_product_screen.dart';
+import 'screens/auth_screen.dart';
 
 import 'providers/orders.dart';
 import 'providers/products.dart';
 import 'providers/cart.dart';
+import 'providers/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,19 +35,27 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => Orders(),
         ),
-      ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
         ),
-        routes: {
-          '/': (context) => ProductsOverViewScreen(),
-          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-          CartScreen.routeName: (context) => CartScreen(),
-          OrdersScreen.routeName: (context) => OrdersScreen(),
-          UserProductsScreen.routeName: (context) => UserProductsScreen(),
-          EditProductScreen.routeName: (context) => EditProductScreen(),
+      ],
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) {
+          return MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.purple,
+              accentColor: Colors.deepOrange,
+            ),
+            routes: {
+              '/': (context) =>
+                  auth.isAuth ? ProductsOverViewScreen() : AuthScreen(),
+              ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+              CartScreen.routeName: (context) => CartScreen(),
+              OrdersScreen.routeName: (context) => OrdersScreen(),
+              UserProductsScreen.routeName: (context) => UserProductsScreen(),
+              EditProductScreen.routeName: (context) => EditProductScreen(),
+            },
+          );
         },
       ),
     );

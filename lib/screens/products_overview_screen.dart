@@ -34,7 +34,7 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text('An error occurred while loading Orders!'),
-          content: Text(error),
+          content: Text(error.toString()),
           actions: <Widget>[
             FlatButton(
               child: Text('Okay'),
