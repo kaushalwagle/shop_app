@@ -15,6 +15,8 @@ import 'providers/products.dart';
 import 'providers/cart.dart';
 import 'providers/auth.dart';
 
+import 'helpers/custom_route.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -50,6 +52,10 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               primarySwatch: Colors.purple,
               accentColor: Colors.deepOrange,
+              pageTransitionsTheme: PageTransitionsTheme(builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS:CustomPageTransitionBuilder(),
+              })
             ),
             routes: {
               '/': (context) => auth.isAuth

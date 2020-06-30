@@ -37,9 +37,12 @@ class ProductItem extends StatelessWidget {
             ProductDetailScreen.routeName,
             arguments: id,
           ),
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: id,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         header: GridTileBar(
@@ -61,11 +64,13 @@ class ProductItem extends StatelessWidget {
                 product.isFavourite ? Icons.favorite : Icons.favorite_border,
               ),
               color: Theme.of(context).accentColor,
-              onPressed: () async{
-                try{
-                  product.toggleFavouriteStatus(authData.token, authData.userId);
-                }catch(error){
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
+              onPressed: () async {
+                try {
+                  product.toggleFavouriteStatus(
+                      authData.token, authData.userId);
+                } catch (error) {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text(error)));
                 }
               },
             ),
